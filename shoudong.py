@@ -22,7 +22,7 @@ import telegram
 bot = telegram.Bot(token='6343206405:AAHkaKIXCMvif0yqkzvTYWasYPEIsTmImgQ')
 while True:
     time_str = str(datetime.utcnow())[11:16]
-    print(time_str)
+    time.sleep(2)
     if time_str in ('00:02','01:02','02:02','03:02','04:02','05:02','06:02','07:02','08:02','09:02','10:02','11:02','12:02',
                    '13:02','14:02','15:02','16:02','17:02','18:02','19:02','20:02','21:02','22:02','23:02'):
         # 引入永续合约流动性的概念
