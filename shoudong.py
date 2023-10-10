@@ -130,7 +130,7 @@ while True:
         time_diff= end_time- start_time
         # 将时间差转换为分钟数
         minutes= time_diff.total_seconds() // 60
-        print(minutes)
+        print(action,minutes)
         if action in ('kong_info','kill_kong','duo_info','kill_duo') and minutes > 60 and minutes<70:
             # =========在此设置api-key，下单金额===========
             API_URL = 'https://api.bitget.com'
@@ -180,9 +180,9 @@ while True:
                     w5 = 1
                 else:
                     w5 = 0
-            print(btc_price)
             per = (btc_price - sub_new_df['price'][2])/sub_new_df['price'][2]
-            if action in ('kong_info') and per > -0.003 and per < 0.003:
+            print(btc_price,per)
+            if action in ('kong_info') and per > -0.003:
                 kong_price = np.max([sub_new_df['price'][2] * 1.005,btc_price])
                 win_price = int(kong_price * 0.99)
                 loss_price = int(kong_price * 1.01)
@@ -204,7 +204,7 @@ while True:
                 content_2 =  "<a href='%s'>点击链接查看清算地图</a>"%(msg_url)
                 bot.sendMessage(chat_id='-1001975215255', text=content,message_thread_id=4)
                 bot.sendMessage(chat_id='-1001975215255', text=content_2, parse_mode = ParseMode.HTML,message_thread_id=4)
-            elif action in ('kill_duo') and per > -0.003 and per < 0.003:
+            elif action in ('kill_duo') and per > -0.003:
                 kong_price = np.max([sub_new_df['price'][2] * 1.005,btc_price])
                 win_price = int(kong_price * 0.99)
                 loss_price = int(kong_price * 1.01)
@@ -226,7 +226,7 @@ while True:
                 content_2 =  "<a href='%s'>点击链接查看清算地图</a>"%(msg_url)
                 bot.sendMessage(chat_id='-1001975215255', text=content,message_thread_id=4)
                 bot.sendMessage(chat_id='-1001975215255', text=content_2, parse_mode = ParseMode.HTML,message_thread_id=4)
-            elif action in ('duo_info') and per > -0.003 and per < 0.003:
+            elif action in ('duo_info') and per < 0.003:
                 duo_price = np.min([sub_new_df['price'][2] * 0.995,btc_price])
                 win_price = int(duo_price * 1.01)
                 loss_price = int(duo_price * 0.99)
@@ -248,7 +248,7 @@ while True:
                 content_2 =  "<a href='%s'>点击链接查看清算地图</a>"%(msg_url)
                 bot.sendMessage(chat_id='-1001975215255', text=content,message_thread_id=4)
                 bot.sendMessage(chat_id='-1001975215255', text=content_2, parse_mode = ParseMode.HTML,message_thread_id=4)
-            elif action in ('kill_kong') and per > -0.003 and per < 0.003:
+            elif action in ('kill_kong') and per < 0.003:
                 duo_price = np.min([sub_new_df['price'][2] * 0.995,btc_price])
                 win_price = int(duo_price * 1.01)
                 loss_price = int(duo_price * 0.99)
