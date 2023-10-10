@@ -108,15 +108,15 @@ while True:
         if sub_new_df['logos'][2] == 'price_up':
             if sub_new_df['future'][2] < 0.45 and sub_new_df['future'][1] > 0.5:
                 action = 'kong_info'
-            #elif sub_new_df['future'][2] < 0.5 and sub_new_df['future'][1] < 0.5 and sub_new_df['future'][0] < 0.5:
-            #    action = 'kill_kong'
+            elif sub_new_df['future'][2] < 0.5 and sub_new_df['future'][1] < 0.5 and sub_new_df['future'][0] < 0.5:
+                action = 'kill_kong'
             else:
                 action = 'other'
         elif sub_new_df['logos'][2] == 'price_down':
             if sub_new_df['future'][2] > 0.55 and sub_new_df['future'][1] < 0.5:
                 action = 'duo_info'
-            #elif sub_new_df['future'][2] > 0.5 and sub_new_df['future'][1] > 0.5 and sub_new_df['future'][0] > 0.5:
-            #    action = 'kill_duo'
+            elif sub_new_df['future'][2] > 0.5 and sub_new_df['future'][1] > 0.5 and sub_new_df['future'][0] > 0.5:
+                action = 'kill_duo'
             else:
                 action = 'other'
         else:
@@ -182,7 +182,7 @@ while True:
                     w5 = 0
             print(btc_price)
             per = (btc_price - sub_new_df['price'][2])/sub_new_df['price'][2]
-            if action == 'kong_info' and per > -0.003 and per < 0.003:
+            if action in ('kong_info') and per > -0.003 and per < 0.003:
                 kong_price = np.max([sub_new_df['price'][2] * 1.005,btc_price])
                 win_price = int(kong_price * 0.99)
                 loss_price = int(kong_price * 1.01)
@@ -204,7 +204,29 @@ while True:
                 content_2 =  "<a href='%s'>点击链接查看清算地图</a>"%(msg_url)
                 bot.sendMessage(chat_id='-1001975215255', text=content,message_thread_id=4)
                 bot.sendMessage(chat_id='-1001975215255', text=content_2, parse_mode = ParseMode.HTML,message_thread_id=4)
-            elif action == 'duo_info' and per > -0.003 and per < 0.003:
+            elif action in ('kill_duo') and per > -0.003 and per < 0.003:
+                kong_price = np.max([sub_new_df['price'][2] * 1.005,btc_price])
+                win_price = int(kong_price * 0.99)
+                loss_price = int(kong_price * 1.01)
+                if sub_new_df['sopr'][2]>1.02:
+                    xinxin = '80%'
+                elif sub_new_df['sopr'][2]>1.01:
+                    xinxin = '70%'
+                else:
+                    xinxin = '60%'
+                text = '目前BTC价格一直是下跌趋势，但全网多单越来越多，说明庄家有意在爆多单，可以顺庄做空。此单信心度：%s'%(xinxin)
+                content = ' \
+【BTC小时短线单】 \n \
+下单方向：BTC永续合约空单 \n \
+下单价格建议：%s \n \
+止盈价格建议：%s \n \
+止损价格建议：%s \n \
+下单理由：%s'%(int(kong_price),win_price,loss_price,text)
+                msg_url = 'https://www.coinglass.com/zh/pro/futures/LiquidationMap'
+                content_2 =  "<a href='%s'>点击链接查看清算地图</a>"%(msg_url)
+                bot.sendMessage(chat_id='-1001975215255', text=content,message_thread_id=4)
+                bot.sendMessage(chat_id='-1001975215255', text=content_2, parse_mode = ParseMode.HTML,message_thread_id=4)
+            elif action in ('duo_info') and per > -0.003 and per < 0.003:
                 duo_price = np.min([sub_new_df['price'][2] * 0.995,btc_price])
                 win_price = int(duo_price * 1.01)
                 loss_price = int(duo_price * 0.99)
@@ -215,6 +237,28 @@ while True:
                 else:
                     xinxin = '60%'
                 text = '近3个小时BTC价格来到阶段性低点，目前全网大量多单布局，可以顺势做多。此单信息心度：%s'%(xinxin)
+                content = ' \
+【BTC小时短线单】 \n \
+下单方向：BTC永续合约多单 \n \
+下单价格建议：%s \n \
+止盈价格建议：%s \n \
+止损价格建议：%s \n \
+下单理由：%s'%(int(duo_price),win_price,loss_price,text)
+                msg_url = 'https://www.coinglass.com/zh/pro/futures/LiquidationMap'
+                content_2 =  "<a href='%s'>点击链接查看清算地图</a>"%(msg_url)
+                bot.sendMessage(chat_id='-1001975215255', text=content,message_thread_id=4)
+                bot.sendMessage(chat_id='-1001975215255', text=content_2, parse_mode = ParseMode.HTML,message_thread_id=4)
+            elif action in ('kill_kong') and per > -0.003 and per < 0.003:
+                duo_price = np.min([sub_new_df['price'][2] * 0.995,btc_price])
+                win_price = int(duo_price * 1.01)
+                loss_price = int(duo_price * 0.99)
+                if sub_new_df['sopr'][2]>1:
+                    xinxin = '80%'
+                elif sub_new_df['sopr'][2]<1 and sub_new_df['sopr'][2]>0.99 :
+                    xinxin = '70%'
+                else:
+                    xinxin = '60%'
+                text = '目前BTC价格一直是上涨趋势，但全网空单越来越多，说明庄家有意在爆空单，可以顺庄做多。此单信息心度：%s'%(xinxin)
                 content = ' \
 【BTC小时短线单】 \n \
 下单方向：BTC永续合约多单 \n \
