@@ -85,11 +85,18 @@ while True:
                 per_3 = 1 if sub_ins['price'][3] - sub_ins['price'][2] > 0 else 0
                 per_2 = 1 if sub_ins['price'][2] - sub_ins['price'][1] > 0 else 0
                 per_1 = 1 if sub_ins['price'][1] - sub_ins['price'][0] > 0 else 0
-
-                if per_up == 0 and per_down < -0.01 and (per_5 + per_4 + per_3 + per_2 + per_1) == 0:  #目前价格最低并且从最高点下跌了1%以上
+                if per_5 > 0.02:
+                    logo = 'duo_duo'
+                elif per_5 < -0.02:
+                    logo = 'kong_kong'
+                if per_up == 0 and per_down < -0.02 and per_5 == 0:  #目前价格最低并且从最高点下跌了1%以上
+                    logo = 'price_down_last'
+                elif per_up == 0 and per_down < -0.01 and (per_5 + per_4 + per_3 + per_2 + per_1) == 0:  #目前价格最低并且从最高点下跌了1%以上
                     logo = 'price_down'
                 elif per_up == 0 and per_down < -0.01 and per_5 == 0:
                     logo = 'price_down'
+                elif per_up >= 0.02 and per_down ==0 and per_5 == 1:  #目前价格最高并且从最低点上升了1%以上
+                    logo = 'price_up_last'
                 elif per_up >= 0.01 and per_down ==0 and (per_5 + per_4 + per_3 + per_2 + per_1) == 5:  #目前价格最高并且从最低点上升了1%以上
                     logo = 'price_up'
                 elif per_up >= 0.01 and per_down ==0 and per_5 == 1:
@@ -113,9 +120,29 @@ while True:
             else:
                 action = 'other'
         elif sub_new_df['logos'][2] == 'price_down':
-            if sub_new_df['future'][2] > 0.55 and sub_new_df['future'][1] < 0.5:
+            if sub_new_df['future'][2] > 0.5 and sub_new_df['future'][1] < 0.5:
                 action = 'duo_info'
             elif sub_new_df['future'][2] > 0.5 and sub_new_df['future'][1] > 0.5 and sub_new_df['future'][0] > 0.5:
+                action = 'kill_duo'
+            else:
+                action = 'other'
+        elif sub_new_df['logos'][2] == 'price_down_last':
+            if sub_new_df['future'][2] > 0.5 and sub_new_df['future'][1] > 0.5:
+                action = 'duo_info'
+            else:
+                action = 'other'
+        elif sub_new_df['logos'][2] == 'price_up_last':
+            if sub_new_df['future'][2] < 0.5 and sub_new_df['future'][1] < 0.5:
+                action = 'kong_info'
+            else:
+                action = 'other'
+        elif sub_new_df['logos'][2] == 'duo_duo':
+            if sub_new_df['future'][2] < 0.5:
+                action = 'kill_kong'
+            else:
+                action = 'other'
+        elif sub_new_df['logos'][2] == 'kong_kong':
+            if sub_new_df['future'][2] > 0.5:
                 action = 'kill_duo'
             else:
                 action = 'other'
