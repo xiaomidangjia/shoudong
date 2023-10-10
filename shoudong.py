@@ -20,7 +20,7 @@ from datetime import datetime
 import random
 import hmac
 import telegram
-bot = telegram.Bot(token='6343206405:AAHkaKIXCMvif0yqkzvTYWasYPEIsTmImgQ')
+bot = telegram.Bot(token='6361430672:AAG2qr7zuFQkcQb13Xtud2q8KksonuTNVN4')
 while True:
     time_str = str(datetime.utcnow())[11:16]
     time.sleep(2)
@@ -89,13 +89,13 @@ while True:
                     logo = 'duo_duo'
                 elif per_5 < -0.02:
                     logo = 'kong_kong'
-                if per_up == 0 and per_down < -0.02 and per_5 == 0:  #目前价格最低并且从最高点下跌了1%以上
+                if per_up == 0 and per_down < -0.03 and per_5 == 0:  #目前价格最低并且从最高点下跌了1%以上
                     logo = 'price_down_last'
                 elif per_up == 0 and per_down < -0.01 and (per_5 + per_4 + per_3 + per_2 + per_1) == 0:  #目前价格最低并且从最高点下跌了1%以上
                     logo = 'price_down'
                 elif per_up == 0 and per_down < -0.01 and per_5 == 0:
                     logo = 'price_down'
-                elif per_up >= 0.02 and per_down ==0 and per_5 == 1:  #目前价格最高并且从最低点上升了1%以上
+                elif per_up >= 0.03 and per_down ==0 and per_5 == 1:  #目前价格最高并且从最低点上升了1%以上
                     logo = 'price_up_last'
                 elif per_up >= 0.01 and per_down ==0 and (per_5 + per_4 + per_3 + per_2 + per_1) == 5:  #目前价格最高并且从最低点上升了1%以上
                     logo = 'price_up'
@@ -112,28 +112,18 @@ while True:
         new_df = new_futures_data[['date','price']].merge(sub_df,how='inner',on=['date'])
         sub_new_df = new_df[-3:]
         sub_new_df = sub_new_df.reset_index(drop=True)
-        if sub_new_df['logos'][2] == 'price_up':
+        if sub_new_df['logos'][2] == ('price_up','price_up_last'):
             if sub_new_df['future'][2] < 0.45 and sub_new_df['future'][1] > 0.5:
                 action = 'kong_info'
             elif sub_new_df['future'][2] < 0.5 and sub_new_df['future'][1] < 0.5 and sub_new_df['future'][0] < 0.5:
                 action = 'kill_kong'
             else:
                 action = 'other'
-        elif sub_new_df['logos'][2] == 'price_down':
+        elif sub_new_df['logos'][2] in ('price_down','price_down_last'):
             if sub_new_df['future'][2] > 0.5 and sub_new_df['future'][1] < 0.5:
                 action = 'duo_info'
             elif sub_new_df['future'][2] > 0.5 and sub_new_df['future'][1] > 0.5 and sub_new_df['future'][0] > 0.5:
                 action = 'kill_duo'
-            else:
-                action = 'other'
-        elif sub_new_df['logos'][2] == 'price_down_last':
-            if sub_new_df['future'][2] > 0.5 and sub_new_df['future'][1] > 0.5:
-                action = 'duo_info'
-            else:
-                action = 'other'
-        elif sub_new_df['logos'][2] == 'price_up_last':
-            if sub_new_df['future'][2] < 0.5 and sub_new_df['future'][1] < 0.5:
-                action = 'kong_info'
             else:
                 action = 'other'
         elif sub_new_df['logos'][2] == 'duo_duo':
@@ -229,8 +219,8 @@ while True:
 下单理由：%s'%(int(kong_price),win_price,loss_price,text)
                 msg_url = 'https://www.coinglass.com/zh/pro/futures/LiquidationMap'
                 content_2 =  "<a href='%s'>点击链接查看清算地图</a>"%(msg_url)
-                bot.sendMessage(chat_id='-1001975215255', text=content,message_thread_id=4)
-                bot.sendMessage(chat_id='-1001975215255', text=content_2, parse_mode = ParseMode.HTML,message_thread_id=4)
+                bot.sendMessage(chat_id='-1001920263299', text=content,message_thread_id=3)
+                bot.sendMessage(chat_id='-1001920263299', text=content_2, parse_mode = ParseMode.HTML,message_thread_id=3)
             elif action in ('kill_duo') and per > -0.003:
                 kong_price = np.max([sub_new_df['price'][2] * 1.005,btc_price])
                 win_price = int(kong_price * 0.99)
@@ -251,8 +241,8 @@ while True:
 下单理由：%s'%(int(kong_price),win_price,loss_price,text)
                 msg_url = 'https://www.coinglass.com/zh/pro/futures/LiquidationMap'
                 content_2 =  "<a href='%s'>点击链接查看清算地图</a>"%(msg_url)
-                bot.sendMessage(chat_id='-1001975215255', text=content,message_thread_id=4)
-                bot.sendMessage(chat_id='-1001975215255', text=content_2, parse_mode = ParseMode.HTML,message_thread_id=4)
+                bot.sendMessage(chat_id='-1001920263299', text=content,message_thread_id=3)
+                bot.sendMessage(chat_id='-1001920263299', text=content_2, parse_mode = ParseMode.HTML,message_thread_id=3)
             elif action in ('duo_info') and per < 0.003:
                 duo_price = np.min([sub_new_df['price'][2] * 0.995,btc_price])
                 win_price = int(duo_price * 1.01)
@@ -273,8 +263,8 @@ while True:
 下单理由：%s'%(int(duo_price),win_price,loss_price,text)
                 msg_url = 'https://www.coinglass.com/zh/pro/futures/LiquidationMap'
                 content_2 =  "<a href='%s'>点击链接查看清算地图</a>"%(msg_url)
-                bot.sendMessage(chat_id='-1001975215255', text=content,message_thread_id=4)
-                bot.sendMessage(chat_id='-1001975215255', text=content_2, parse_mode = ParseMode.HTML,message_thread_id=4)
+                bot.sendMessage(chat_id='-1001920263299', text=content,message_thread_id=3)
+                bot.sendMessage(chat_id='-1001920263299', text=content_2, parse_mode = ParseMode.HTML,message_thread_id=3)
             elif action in ('kill_kong') and per < 0.003:
                 duo_price = np.min([sub_new_df['price'][2] * 0.995,btc_price])
                 win_price = int(duo_price * 1.01)
@@ -295,8 +285,8 @@ while True:
 下单理由：%s'%(int(duo_price),win_price,loss_price,text)
                 msg_url = 'https://www.coinglass.com/zh/pro/futures/LiquidationMap'
                 content_2 =  "<a href='%s'>点击链接查看清算地图</a>"%(msg_url)
-                bot.sendMessage(chat_id='-1001975215255', text=content,message_thread_id=4)
-                bot.sendMessage(chat_id='-1001975215255', text=content_2, parse_mode = ParseMode.HTML,message_thread_id=4)
+                bot.sendMessage(chat_id='-1001920263299', text=content,message_thread_id=3)
+                bot.sendMessage(chat_id='-1001920263299', text=content_2, parse_mode = ParseMode.HTML,message_thread_id=3)
         else:
             c = 1
         time.sleep(100)
