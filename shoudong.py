@@ -21,6 +21,7 @@ import random
 import hmac
 import telegram
 bot = telegram.Bot(token='6361430672:AAG2qr7zuFQkcQb13Xtud2q8KksonuTNVN4')
+order_time = ['1960-01-01 00:00:00']
 while True:
     time_str = str(datetime.utcnow())[11:16]
     time.sleep(2)
@@ -200,93 +201,141 @@ while True:
             per = (btc_price - sub_new_df['price'][2])/sub_new_df['price'][2]
             print(btc_price,per)
             if action in ('kong_info') and per > -0.003:
-                kong_price = np.max([sub_new_df['price'][2] * 1.005,btc_price])
-                win_price = int(kong_price * 0.99)
-                loss_price = int(kong_price * 1.01)
-                if sub_new_df['sopr'][2]>1.05:
-                    xinxin = '80%'
-                elif sub_new_df['sopr'][2]>1.03:
-                    xinxin = '70%'
+                logo = str(datetime.utcnow())[0:19]
+                last_order_time = order_time[-1]
+                start_time1= datetime.strptime(str(datetime.utcnow())[0:19], '%Y-%m-%d %H:%M:%S')
+                end_time1= datetime.strptime(last_order_time, '%Y-%m-%d %H:%M:%S')
+                # 计算时间差
+                time_diff1= end_time1- start_time1
+                # 将时间差转换为分钟数
+                minutes1= time_diff1.total_seconds() // 60
+                if minutes1 < 70:
+                    print('不下单')
                 else:
-                    xinxin = '60%'
-                text = '近3个小时BTC价格来到阶段性高点，目前全网大量空单布局，可以顺势做空。此单信心度：%s'%(xinxin)
-                content = ' \
+                    kong_price = np.max([sub_new_df['price'][2] * 1.005,btc_price])
+                    win_price = int(kong_price * 0.99)
+                    loss_price = int(kong_price * 1.01)
+                    if sub_new_df['sopr'][2]>1.05:
+                        xinxin = '80%'
+                    elif sub_new_df['sopr'][2]>1.03:
+                        xinxin = '70%'
+                    else:
+                        xinxin = '60%'
+                    text = '【30分钟内有效】近3个小时BTC价格来到阶段性高点，目前全网大量空单布局，可以顺势做空。此单信心度：%s'%(xinxin)
+                    content = ' \
 【BTC小时短线单】 \n \
 下单方向：BTC永续合约空单 \n \
 下单价格建议：%s \n \
 止盈价格建议：%s \n \
 止损价格建议：%s \n \
 下单理由：%s'%(int(kong_price),win_price,loss_price,text)
-                msg_url = 'https://www.coinglass.com/zh/pro/futures/LiquidationMap'
-                content_2 =  "<a href='%s'>点击链接查看清算地图</a>"%(msg_url)
-                bot.sendMessage(chat_id='-1001920263299', text=content,message_thread_id=3)
-                bot.sendMessage(chat_id='-1001920263299', text=content_2, parse_mode = ParseMode.HTML,message_thread_id=3)
+                    msg_url = 'https://www.coinglass.com/zh/pro/futures/LiquidationMap'
+                    content_2 =  "<a href='%s'>点击链接查看清算地图</a>"%(msg_url)
+                    bot.sendMessage(chat_id='-1001920263299', text=content,message_thread_id=3)
+                    bot.sendMessage(chat_id='-1001920263299', text=content_2, parse_mode = ParseMode.HTML,message_thread_id=3)
+                order_time.append(logo)
             elif action in ('kill_duo') and per > -0.003:
-                kong_price = np.max([sub_new_df['price'][2] * 1.005,btc_price])
-                win_price = int(kong_price * 0.99)
-                loss_price = int(kong_price * 1.01)
-                if sub_new_df['sopr'][2]>1.02:
-                    xinxin = '80%'
-                elif sub_new_df['sopr'][2]>1.01:
-                    xinxin = '70%'
+                logo = str(datetime.utcnow())[0:19]
+                last_order_time = order_time[-1]
+                start_time1= datetime.strptime(str(datetime.utcnow())[0:19], '%Y-%m-%d %H:%M:%S')
+                end_time1= datetime.strptime(last_order_time, '%Y-%m-%d %H:%M:%S')
+                # 计算时间差
+                time_diff1= end_time1- start_time1
+                # 将时间差转换为分钟数
+                minutes1= time_diff1.total_seconds() // 60
+                if minutes1 < 70:
+                    print('不下单')
                 else:
-                    xinxin = '60%'
-                text = '目前BTC价格一直是下跌趋势，但全网多单越来越多，说明庄家有意在爆多单，可以顺庄做空。此单信心度：%s'%(xinxin)
-                content = ' \
+                    kong_price = np.max([sub_new_df['price'][2] * 1.005,btc_price])
+                    win_price = int(kong_price * 0.99)
+                    loss_price = int(kong_price * 1.01)
+                    if sub_new_df['sopr'][2]>1.02:
+                        xinxin = '80%'
+                    elif sub_new_df['sopr'][2]>1.01:
+                        xinxin = '70%'
+                    else:
+                        xinxin = '60%'
+                    text = '【30分钟内有效】目前BTC价格一直是下跌趋势，但全网多单越来越多，说明庄家有意在爆多单，可以顺庄做空。此单信心度：%s'%(xinxin)
+                    content = ' \
 【BTC小时短线单】 \n \
 下单方向：BTC永续合约空单 \n \
 下单价格建议：%s \n \
 止盈价格建议：%s \n \
 止损价格建议：%s \n \
 下单理由：%s'%(int(kong_price),win_price,loss_price,text)
-                msg_url = 'https://www.coinglass.com/zh/pro/futures/LiquidationMap'
-                content_2 =  "<a href='%s'>点击链接查看清算地图</a>"%(msg_url)
-                bot.sendMessage(chat_id='-1001920263299', text=content,message_thread_id=3)
-                bot.sendMessage(chat_id='-1001920263299', text=content_2, parse_mode = ParseMode.HTML,message_thread_id=3)
+                    msg_url = 'https://www.coinglass.com/zh/pro/futures/LiquidationMap'
+                    content_2 =  "<a href='%s'>点击链接查看清算地图</a>"%(msg_url)
+                    bot.sendMessage(chat_id='-1001920263299', text=content,message_thread_id=3)
+                    bot.sendMessage(chat_id='-1001920263299', text=content_2, parse_mode = ParseMode.HTML,message_thread_id=3)
+                order_time.append(logo)
             elif action in ('duo_info') and per < 0.003:
-                duo_price = np.min([sub_new_df['price'][2] * 0.995,btc_price])
-                win_price = int(duo_price * 1.01)
-                loss_price = int(duo_price * 0.99)
-                if sub_new_df['sopr'][2]<1:
-                    xinxin = '80%'
-                elif sub_new_df['sopr'][2]>1 and sub_new_df['sopr'][2]<1.01 :
-                    xinxin = '70%'
+                logo = str(datetime.utcnow())[0:19]
+                last_order_time = order_time[-1]
+                start_time1= datetime.strptime(str(datetime.utcnow())[0:19], '%Y-%m-%d %H:%M:%S')
+                end_time1= datetime.strptime(last_order_time, '%Y-%m-%d %H:%M:%S')
+                # 计算时间差
+                time_diff1= end_time1- start_time1
+                # 将时间差转换为分钟数
+                minutes1= time_diff1.total_seconds() // 60
+                if minutes1 < 70:
+                    print('不下单')
                 else:
-                    xinxin = '60%'
-                text = '近3个小时BTC价格来到阶段性低点，目前全网大量多单布局，可以顺势做多。此单信息心度：%s'%(xinxin)
-                content = ' \
+                    duo_price = np.min([sub_new_df['price'][2] * 0.995,btc_price])
+                    win_price = int(duo_price * 1.01)
+                    loss_price = int(duo_price * 0.99)
+                    if sub_new_df['sopr'][2]<1:
+                        xinxin = '80%'
+                    elif sub_new_df['sopr'][2]>1 and sub_new_df['sopr'][2]<1.01 :
+                        xinxin = '70%'
+                    else:
+                        xinxin = '60%'
+                    text = '【30分钟内有效】近3个小时BTC价格来到阶段性低点，目前全网大量多单布局，可以顺势做多。此单信息心度：%s'%(xinxin)
+                    content = ' \
 【BTC小时短线单】 \n \
 下单方向：BTC永续合约多单 \n \
 下单价格建议：%s \n \
 止盈价格建议：%s \n \
 止损价格建议：%s \n \
 下单理由：%s'%(int(duo_price),win_price,loss_price,text)
-                msg_url = 'https://www.coinglass.com/zh/pro/futures/LiquidationMap'
-                content_2 =  "<a href='%s'>点击链接查看清算地图</a>"%(msg_url)
-                bot.sendMessage(chat_id='-1001920263299', text=content,message_thread_id=3)
-                bot.sendMessage(chat_id='-1001920263299', text=content_2, parse_mode = ParseMode.HTML,message_thread_id=3)
+                    msg_url = 'https://www.coinglass.com/zh/pro/futures/LiquidationMap'
+                    content_2 =  "<a href='%s'>点击链接查看清算地图</a>"%(msg_url)
+                    bot.sendMessage(chat_id='-1001920263299', text=content,message_thread_id=3)
+                    bot.sendMessage(chat_id='-1001920263299', text=content_2, parse_mode = ParseMode.HTML,message_thread_id=3)
+                order_time.append(logo)
             elif action in ('kill_kong') and per < 0.003:
-                duo_price = np.min([sub_new_df['price'][2] * 0.995,btc_price])
-                win_price = int(duo_price * 1.01)
-                loss_price = int(duo_price * 0.99)
-                if sub_new_df['sopr'][2]>1:
-                    xinxin = '80%'
-                elif sub_new_df['sopr'][2]<1 and sub_new_df['sopr'][2]>0.99 :
-                    xinxin = '70%'
+                logo = str(datetime.utcnow())[0:19]
+                last_order_time = order_time[-1]
+                start_time1= datetime.strptime(str(datetime.utcnow())[0:19], '%Y-%m-%d %H:%M:%S')
+                end_time1= datetime.strptime(last_order_time, '%Y-%m-%d %H:%M:%S')
+                # 计算时间差
+                time_diff1= end_time1- start_time1
+                # 将时间差转换为分钟数
+                minutes1= time_diff1.total_seconds() // 60
+                if minutes1 < 70:
+                    print('不下单')
                 else:
-                    xinxin = '60%'
-                text = '目前BTC价格一直是上涨趋势，但全网空单越来越多，说明庄家有意在爆空单，可以顺庄做多。此单信息心度：%s'%(xinxin)
-                content = ' \
+                    duo_price = np.min([sub_new_df['price'][2] * 0.995,btc_price])
+                    win_price = int(duo_price * 1.01)
+                    loss_price = int(duo_price * 0.99)
+                    if sub_new_df['sopr'][2]>1:
+                        xinxin = '80%'
+                    elif sub_new_df['sopr'][2]<1 and sub_new_df['sopr'][2]>0.99 :
+                        xinxin = '70%'
+                    else:
+                        xinxin = '60%'
+                    text = '【30分钟内有效】目前BTC价格一直是上涨趋势，但全网空单越来越多，说明庄家有意在爆空单，可以顺庄做多。此单信息心度：%s'%(xinxin)
+                    content = ' \
 【BTC小时短线单】 \n \
 下单方向：BTC永续合约多单 \n \
 下单价格建议：%s \n \
 止盈价格建议：%s \n \
 止损价格建议：%s \n \
 下单理由：%s'%(int(duo_price),win_price,loss_price,text)
-                msg_url = 'https://www.coinglass.com/zh/pro/futures/LiquidationMap'
-                content_2 =  "<a href='%s'>点击链接查看清算地图</a>"%(msg_url)
-                bot.sendMessage(chat_id='-1001920263299', text=content,message_thread_id=3)
-                bot.sendMessage(chat_id='-1001920263299', text=content_2, parse_mode = ParseMode.HTML,message_thread_id=3)
+                    msg_url = 'https://www.coinglass.com/zh/pro/futures/LiquidationMap'
+                    content_2 =  "<a href='%s'>点击链接查看清算地图</a>"%(msg_url)
+                    bot.sendMessage(chat_id='-1001920263299', text=content,message_thread_id=3)
+                    bot.sendMessage(chat_id='-1001920263299', text=content_2, parse_mode = ParseMode.HTML,message_thread_id=3)
+                order_time.append(logo)
         else:
             c = 1
         time.sleep(100)
