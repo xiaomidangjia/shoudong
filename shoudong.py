@@ -227,7 +227,7 @@ while True:
                         "crypto_win":win_price,
                         "crypto_loss":loss_price
                         }
-                    req_url_3 = "http://8.219.61.64:5080/upload_date"
+                    req_url_3 = "http://8.219.61.64:5090/upload_date"
                     r_3 = requests.post(req_url_3, data=test_data_3)
                     api_res_3 = r_3.content.decode('utf-8')
                     api_res_3 = json.loads(api_res_3)
@@ -276,7 +276,7 @@ while True:
                         "crypto_win":win_price,
                         "crypto_loss":loss_price
                         }
-                    req_url_3 = "http://8.219.61.64:5080/upload_date"
+                    req_url_3 = "http://8.219.61.64:5090/upload_date"
                     r_3 = requests.post(req_url_3, data=test_data_3)
                     api_res_3 = r_3.content.decode('utf-8')
                     api_res_3 = json.loads(api_res_3)
@@ -325,7 +325,7 @@ while True:
                         "crypto_win":win_price,
                         "crypto_loss":loss_price
                         }
-                    req_url_3 = "http://8.219.61.64:5080/upload_date"
+                    req_url_3 = "http://8.219.61.64:5090/upload_date"
                     r_3 = requests.post(req_url_3, data=test_data_3)
                     api_res_3 = r_3.content.decode('utf-8')
                     api_res_3 = json.loads(api_res_3)
@@ -374,7 +374,7 @@ while True:
                         "crypto_win":win_price,
                         "crypto_loss":loss_price
                         }
-                    req_url_3 = "http://8.219.61.64:5080/upload_date"
+                    req_url_3 = "http://8.219.61.64:5090/upload_date"
                     r_3 = requests.post(req_url_3, data=test_data_3)
                     api_res_3 = r_3.content.decode('utf-8')
                     api_res_3 = json.loads(api_res_3)
