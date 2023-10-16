@@ -116,7 +116,7 @@ while True:
         new_df = new_futures_data[['date','price']].merge(sub_df,how='inner',on=['date'])
         sub_new_df = new_df[-3:]
         sub_new_df = sub_new_df.reset_index(drop=True)
-        if sub_new_df['logos'][2] == ('price_up','price_up_last'):
+        if sub_new_df['logos'][2] in ('price_up','price_up_last'):
             if sub_new_df['future'][2] < 0.45 and sub_new_df['future'][1] > 0.5:
                 action = 'kong_info'
             elif sub_new_df['future'][2] < 0.45 and sub_new_df['future'][1] < 0.45 and sub_new_df['future'][0] < 0.45:
@@ -203,7 +203,7 @@ while True:
                     w5 = 0
             per = (btc_price - sub_new_df['price'][2])/sub_new_df['price'][2]
             print(btc_price,per)
-            if action in ('kong_info') and per > -0.003:
+            if action in ('kong_info') and per > -0.005:
                 logo = str(datetime.utcnow())[0:19]
                 last_order_time = order_time[-1]
                 end_time1= datetime.strptime(str(datetime.utcnow())[0:19], '%Y-%m-%d %H:%M:%S')
