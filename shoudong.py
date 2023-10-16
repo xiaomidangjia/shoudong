@@ -28,6 +28,7 @@ while True:
     if time_str in ('00:02','01:02','02:02','03:02','04:02','05:02','06:02','07:02','08:02','09:02','10:02','11:02','12:02',
                    '13:02','14:02','15:02','16:02','17:02','18:02','19:02','20:02','21:02','22:02','23:02'):
         # 引入永续合约流动性的概念
+        print('开始运行',time_str)
         url_address = ['https://api.glassnode.com/v1/metrics/derivatives/futures_liquidated_volume_long_relative',
                        'https://api.glassnode.com/v1/metrics/market/price_usd_close',
                       'https://api.glassnode.com/v1/metrics/indicators/sopr_less_155']
@@ -118,12 +119,12 @@ while True:
         if sub_new_df['logos'][2] == ('price_up','price_up_last'):
             if sub_new_df['future'][2] < 0.45 and sub_new_df['future'][1] > 0.5:
                 action = 'kong_info'
-            elif sub_new_df['future'][2] < 0.5 and sub_new_df['future'][1] < 0.5 and sub_new_df['future'][0] < 0.5:
+            elif sub_new_df['future'][2] < 0.45 and sub_new_df['future'][1] < 0.45 and sub_new_df['future'][0] < 0.45:
                 action = 'kill_kong'
             else:
                 action = 'other'
         elif sub_new_df['logos'][2] in ('price_down','price_down_last'):
-            if sub_new_df['future'][2] > 0.5 and sub_new_df['future'][1] < 0.5:
+            if sub_new_df['future'][2] > 0.5 and sub_new_df['future'][1] < 0.45:
                 action = 'duo_info'
             elif sub_new_df['future'][2] > 0.5 and sub_new_df['future'][1] > 0.5 and sub_new_df['future'][0] > 0.5:
                 action = 'kill_duo'
@@ -205,13 +206,13 @@ while True:
             if action in ('kong_info') and per > -0.003:
                 logo = str(datetime.utcnow())[0:19]
                 last_order_time = order_time[-1]
-                start_time1= datetime.strptime(str(datetime.utcnow())[0:19], '%Y-%m-%d %H:%M:%S')
-                end_time1= datetime.strptime(last_order_time, '%Y-%m-%d %H:%M:%S')
+                end_time1= datetime.strptime(str(datetime.utcnow())[0:19], '%Y-%m-%d %H:%M:%S')
+                start_time1= datetime.strptime(last_order_time, '%Y-%m-%d %H:%M:%S')
                 # 计算时间差
                 time_diff1= end_time1- start_time1
                 # 将时间差转换为分钟数
                 minutes1= time_diff1.total_seconds() // 60
-                if minutes1 < 70:
+                if minutes1 < 140:
                     print('不下单')
                 else:
                     kong_price = np.max([sub_new_df['price'][2] * 1.005,btc_price])
@@ -238,7 +239,7 @@ while True:
                         xinxin = '70%'
                     else:
                         xinxin = '60%'
-                    text = '【30分钟内有效】近3个小时BTC价格来到阶段性高点，目前全网大量空单布局，可以顺势做空。此单信心度：%s'%(xinxin)
+                    text = '【60分钟内有效】近3个小时BTC价格来到阶段性高点，目前全网大量空单布局，可以顺势做空。此单信心度：%s'%(xinxin)
                     content = ' \
 【BTC小时短线单】 \n \
 下单方向：BTC永续合约空单 \n \
@@ -254,13 +255,13 @@ while True:
             elif action in ('kill_duo') and per > -0.003:
                 logo = str(datetime.utcnow())[0:19]
                 last_order_time = order_time[-1]
-                start_time1= datetime.strptime(str(datetime.utcnow())[0:19], '%Y-%m-%d %H:%M:%S')
-                end_time1= datetime.strptime(last_order_time, '%Y-%m-%d %H:%M:%S')
+                end_time1= datetime.strptime(str(datetime.utcnow())[0:19], '%Y-%m-%d %H:%M:%S')
+                start_time1= datetime.strptime(last_order_time, '%Y-%m-%d %H:%M:%S')
                 # 计算时间差
                 time_diff1= end_time1- start_time1
                 # 将时间差转换为分钟数
                 minutes1= time_diff1.total_seconds() // 60
-                if minutes1 < 70:
+                if minutes1 < 140:
                     print('不下单')
                 else:
                     kong_price = np.max([sub_new_df['price'][2] * 1.005,btc_price])
@@ -287,7 +288,7 @@ while True:
                         xinxin = '70%'
                     else:
                         xinxin = '60%'
-                    text = '【30分钟内有效】目前BTC价格一直是下跌趋势，但全网多单越来越多，说明庄家有意在爆多单，可以顺庄做空。此单信心度：%s'%(xinxin)
+                    text = '【60分钟内有效】目前BTC价格一直是下跌趋势，但全网多单越来越多，说明庄家有意在爆多单，可以顺庄做空。此单信心度：%s'%(xinxin)
                     content = ' \
 【BTC小时短线单】 \n \
 下单方向：BTC永续合约空单 \n \
@@ -303,13 +304,13 @@ while True:
             elif action in ('duo_info') and per < 0.003:
                 logo = str(datetime.utcnow())[0:19]
                 last_order_time = order_time[-1]
-                start_time1= datetime.strptime(str(datetime.utcnow())[0:19], '%Y-%m-%d %H:%M:%S')
-                end_time1= datetime.strptime(last_order_time, '%Y-%m-%d %H:%M:%S')
+                end_time1= datetime.strptime(str(datetime.utcnow())[0:19], '%Y-%m-%d %H:%M:%S')
+                start_time1= datetime.strptime(last_order_time, '%Y-%m-%d %H:%M:%S')
                 # 计算时间差
                 time_diff1= end_time1- start_time1
                 # 将时间差转换为分钟数
                 minutes1= time_diff1.total_seconds() // 60
-                if minutes1 < 70:
+                if minutes1 < 140:
                     print('不下单')
                 else:
                     duo_price = np.min([sub_new_df['price'][2] * 0.995,btc_price])
@@ -336,7 +337,7 @@ while True:
                         xinxin = '70%'
                     else:
                         xinxin = '60%'
-                    text = '【30分钟内有效】近3个小时BTC价格来到阶段性低点，目前全网大量多单布局，可以顺势做多。此单信息心度：%s'%(xinxin)
+                    text = '【60分钟内有效】近3个小时BTC价格来到阶段性低点，目前全网大量多单布局，可以顺势做多。此单信息心度：%s'%(xinxin)
                     content = ' \
 【BTC小时短线单】 \n \
 下单方向：BTC永续合约多单 \n \
@@ -352,13 +353,13 @@ while True:
             elif action in ('kill_kong') and per < 0.003:
                 logo = str(datetime.utcnow())[0:19]
                 last_order_time = order_time[-1]
-                start_time1= datetime.strptime(str(datetime.utcnow())[0:19], '%Y-%m-%d %H:%M:%S')
-                end_time1= datetime.strptime(last_order_time, '%Y-%m-%d %H:%M:%S')
+                end_time1= datetime.strptime(str(datetime.utcnow())[0:19], '%Y-%m-%d %H:%M:%S')
+                start_time1= datetime.strptime(last_order_time, '%Y-%m-%d %H:%M:%S')
                 # 计算时间差
                 time_diff1= end_time1- start_time1
                 # 将时间差转换为分钟数
                 minutes1= time_diff1.total_seconds() // 60
-                if minutes1 < 70:
+                if minutes1 < 140:
                     print('不下单')
                 else:
                     duo_price = np.min([sub_new_df['price'][2] * 0.995,btc_price])
@@ -385,7 +386,7 @@ while True:
                         xinxin = '70%'
                     else:
                         xinxin = '60%'
-                    text = '【30分钟内有效】目前BTC价格一直是上涨趋势，但全网空单越来越多，说明庄家有意在爆空单，可以顺庄做多。此单信息心度：%s'%(xinxin)
+                    text = '【60分钟内有效】目前BTC价格一直是上涨趋势，但全网空单越来越多，说明庄家有意在爆空单，可以顺庄做多。此单信息心度：%s'%(xinxin)
                     content = ' \
 【BTC小时短线单】 \n \
 下单方向：BTC永续合约多单 \n \
