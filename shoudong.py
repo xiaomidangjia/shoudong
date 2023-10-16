@@ -86,11 +86,13 @@ while True:
                 per_3 = 1 if sub_ins['price'][3] - sub_ins['price'][2] > 0 else 0
                 per_2 = 1 if sub_ins['price'][2] - sub_ins['price'][1] > 0 else 0
                 per_1 = 1 if sub_ins['price'][1] - sub_ins['price'][0] > 0 else 0
-                if per_5 > 0.02:
+
+                per_last = (sub_ins['price'][5] - sub_ins['price'][4])/sub_ins['price'][4]
+                if per_last > 0.02:
                     logo = 'duo_duo'
-                elif per_5 < -0.02:
+                elif per_last < -0.02:
                     logo = 'kong_kong'
-                if per_up == 0 and per_down < -0.03 and per_5 == 0:  #目前价格最低并且从最高点下跌了1%以上
+                elif per_up == 0 and per_down < -0.03 and per_5 == 0:  #目前价格最低并且从最高点下跌了1%以上
                     logo = 'price_down_last'
                 elif per_up == 0 and per_down < -0.01 and (per_5 + per_4 + per_3 + per_2 + per_1) == 0:  #目前价格最低并且从最高点下跌了1%以上
                     logo = 'price_down'
@@ -215,6 +217,20 @@ while True:
                     kong_price = np.max([sub_new_df['price'][2] * 1.005,btc_price])
                     win_price = int(kong_price * 0.99)
                     loss_price = int(kong_price * 1.01)
+                    test_data_3 = {
+                        "crypto_id": 'A' +str(timestamp),
+                        "crypto_name": 'btc',
+                        "crypto_direction":'kong',
+                        "crypto_type":'dianwei',
+                        "crypto_open":kong_price,
+                        "crypto_win":win_price,
+                        "crypto_loss":loss_price
+                        }
+                    req_url_3 = "http://8.219.61.64:5080/upload_date"
+                    r_3 = requests.post(req_url_3, data=test_data_3)
+                    api_res_3 = r_3.content.decode('utf-8')
+                    api_res_3 = json.loads(api_res_3)
+                    api_value_3 = api_res_3['value']
                     if sub_new_df['sopr'][2]>1.05:
                         xinxin = '80%'
                     elif sub_new_df['sopr'][2]>1.03:
@@ -249,6 +265,20 @@ while True:
                     kong_price = np.max([sub_new_df['price'][2] * 1.005,btc_price])
                     win_price = int(kong_price * 0.99)
                     loss_price = int(kong_price * 1.01)
+                    test_data_3 = {
+                        "crypto_id": 'A' +str(timestamp),
+                        "crypto_name": 'btc',
+                        "crypto_direction":'kong',
+                        "crypto_type":'dianwei',
+                        "crypto_open":kong_price,
+                        "crypto_win":win_price,
+                        "crypto_loss":loss_price
+                        }
+                    req_url_3 = "http://8.219.61.64:5080/upload_date"
+                    r_3 = requests.post(req_url_3, data=test_data_3)
+                    api_res_3 = r_3.content.decode('utf-8')
+                    api_res_3 = json.loads(api_res_3)
+                    api_value_3 = api_res_3['value']
                     if sub_new_df['sopr'][2]>1.02:
                         xinxin = '80%'
                     elif sub_new_df['sopr'][2]>1.01:
@@ -283,6 +313,20 @@ while True:
                     duo_price = np.min([sub_new_df['price'][2] * 0.995,btc_price])
                     win_price = int(duo_price * 1.01)
                     loss_price = int(duo_price * 0.99)
+                    test_data_3 = {
+                        "crypto_id": 'A' +str(timestamp),
+                        "crypto_name": 'btc',
+                        "crypto_direction":'duo',
+                        "crypto_type":'dianwei',
+                        "crypto_open":duo_price,
+                        "crypto_win":win_price,
+                        "crypto_loss":loss_price
+                        }
+                    req_url_3 = "http://8.219.61.64:5080/upload_date"
+                    r_3 = requests.post(req_url_3, data=test_data_3)
+                    api_res_3 = r_3.content.decode('utf-8')
+                    api_res_3 = json.loads(api_res_3)
+                    api_value_3 = api_res_3['value']
                     if sub_new_df['sopr'][2]<1:
                         xinxin = '80%'
                     elif sub_new_df['sopr'][2]>1 and sub_new_df['sopr'][2]<1.01 :
@@ -317,6 +361,20 @@ while True:
                     duo_price = np.min([sub_new_df['price'][2] * 0.995,btc_price])
                     win_price = int(duo_price * 1.01)
                     loss_price = int(duo_price * 0.99)
+                    test_data_3 = {
+                        "crypto_id": 'A' +str(timestamp),
+                        "crypto_name": 'btc',
+                        "crypto_direction":'duo',
+                        "crypto_type":'dianwei',
+                        "crypto_open":duo_price,
+                        "crypto_win":win_price,
+                        "crypto_loss":loss_price
+                        }
+                    req_url_3 = "http://8.219.61.64:5080/upload_date"
+                    r_3 = requests.post(req_url_3, data=test_data_3)
+                    api_res_3 = r_3.content.decode('utf-8')
+                    api_res_3 = json.loads(api_res_3)
+                    api_value_3 = api_res_3['value']
                     if sub_new_df['sopr'][2]>1:
                         xinxin = '80%'
                     elif sub_new_df['sopr'][2]<1 and sub_new_df['sopr'][2]>0.99 :
