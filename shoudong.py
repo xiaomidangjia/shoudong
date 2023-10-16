@@ -218,6 +218,7 @@ while True:
                     win_price = int(kong_price * 0.99)
                     loss_price = int(kong_price * 1.01)
                     test_data_3 = {
+                        "crypto_time": str(end_time1),
                         "crypto_id": 'A' +str(timestamp),
                         "crypto_name": 'btc',
                         "crypto_direction":'kong',
@@ -266,6 +267,7 @@ while True:
                     win_price = int(kong_price * 0.99)
                     loss_price = int(kong_price * 1.01)
                     test_data_3 = {
+                        "crypto_time": str(end_time1),
                         "crypto_id": 'A' +str(timestamp),
                         "crypto_name": 'btc',
                         "crypto_direction":'kong',
@@ -314,6 +316,7 @@ while True:
                     win_price = int(duo_price * 1.01)
                     loss_price = int(duo_price * 0.99)
                     test_data_3 = {
+                        "crypto_time": str(end_time1),
                         "crypto_id": 'A' +str(timestamp),
                         "crypto_name": 'btc',
                         "crypto_direction":'duo',
@@ -362,6 +365,7 @@ while True:
                     win_price = int(duo_price * 1.01)
                     loss_price = int(duo_price * 0.99)
                     test_data_3 = {
+                        "crypto_time": str(end_time1),
                         "crypto_id": 'A' +str(timestamp),
                         "crypto_name": 'btc',
                         "crypto_direction":'duo',
