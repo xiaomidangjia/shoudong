@@ -215,8 +215,8 @@ while True:
                 if minutes1 < 140:
                     print('不下单')
                 else:
-                    kong_price = np.max([sub_new_df['price'][2] * 1.005,btc_price])
-                    win_price = int(kong_price * 0.99)
+                    kong_price = np.max([sub_new_df['price'][2] * 1.004,btc_price])
+                    win_price = int(kong_price * 0.98)
                     loss_price = int(kong_price * 1.01)
                     test_data_3 = {
                         "crypto_time": str(end_time1),
@@ -264,8 +264,8 @@ while True:
                 if minutes1 < 140:
                     print('不下单')
                 else:
-                    kong_price = np.max([sub_new_df['price'][2] * 1.005,btc_price])
-                    win_price = int(kong_price * 0.99)
+                    kong_price = np.max([sub_new_df['price'][2] * 1.004,btc_price])
+                    win_price = int(kong_price * 0.98)
                     loss_price = int(kong_price * 1.01)
                     test_data_3 = {
                         "crypto_time": str(end_time1),
@@ -313,8 +313,8 @@ while True:
                 if minutes1 < 140:
                     print('不下单')
                 else:
-                    duo_price = np.min([sub_new_df['price'][2] * 0.995,btc_price])
-                    win_price = int(duo_price * 1.01)
+                    duo_price = np.min([sub_new_df['price'][2] * 0.996,btc_price])
+                    win_price = int(duo_price * 1.02)
                     loss_price = int(duo_price * 0.99)
                     test_data_3 = {
                         "crypto_time": str(end_time1),
@@ -362,8 +362,8 @@ while True:
                 if minutes1 < 140:
                     print('不下单')
                 else:
-                    duo_price = np.min([sub_new_df['price'][2] * 0.995,btc_price])
-                    win_price = int(duo_price * 1.01)
+                    duo_price = np.min([sub_new_df['price'][2] * 0.996,btc_price])
+                    win_price = int(duo_price * 1.02)
                     loss_price = int(duo_price * 0.99)
                     test_data_3 = {
                         "crypto_time": str(end_time1),
